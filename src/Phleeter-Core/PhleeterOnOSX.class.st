@@ -145,7 +145,7 @@ then
 fi
 
 #execute deploy script in pharo
-pharo-vm-$(uname -s)-$(uname -m)/Pharo.app/Contents/MacOS/Pharo --headless $APP_BUNDLE/Contents/Resources/$IMAGE_NAME eval --save {DeployPharoExpression}
+pharo-vm-$(uname -s)-$(uname -m)/Pharo.app/Contents/MacOS/Pharo --headless build_image/Contents/Resources/$IMAGE_NAME eval --save {DeployPharoExpression}
 ' withUnixLineEndings format: properties
 ]
 

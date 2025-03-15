@@ -212,17 +212,14 @@ create-dmg \\
 PhleeterOnOSX >> platformBuildScriptTemplateForWindows [
 
 	^ '
-if [ ! -d "./$APP_NAME-{TargetPlatform}" ] 
+if [ ! -d "./pharo-vm-{TargetPlatform}" ] 
 then
-    mkdir -p $APP_NAME-{TargetPlatform}/Pharo
-    cp -rp image_build/Contents/Resources/pharo-local $APP_NAME-{TargetPlatform}/
-    pushd $APP_NAME-{TargetPlatform}
-    echo ".\Pharo\Pharo.exe .\$APP_NAME.image" > $APP_NAME.bat
-    cd Pharo
+    mkdir -p pharo-vm-{TargetPlatform}/
+    pushd pharo-vm-{TargetPlatform}
     if [ $VM_TYPE -eq "headless" ]; then
-      curl --output vm.zip https://files.pharo.org/vm/pharo-spur64-headless/Windows-x86_64/latest10.zip
+      curl --output vm.zip https://files.pharo.org/vm/pharo-spur64-headless/{TargetPlatform}/latest10.zip
     else
-      curl --output vm.zip https://files.pharo.org/vm/pharo-spur64/Windows-x86_64/stable10.zip
+      curl --output vm.zip https://files.pharo.org/vm/pharo-spur64/{TargetPlatform}/stable10.zip
     fi
     unzip vm.zip
     rm vm.zip
@@ -230,10 +227,12 @@ then
 fi
 
 rm -rf $APP_NAME
-cp -rp $APP_NAME-{TargetPlatform} $APP_NAME
-cp build_image/Contents/Resources/$APP_NAME.image $APP_NAME/
-cp build_image/Contents/Resources/$APP_NAME.changes $APP_NAME/
-cp build_image/Contents/Resources/*.sources $APP_NAME/
+mkdir $APP_NAME
+cp -rp pharo-vm-{TargetPlatform} $APP_NAME/Pharo
+echo ".\\Pharo\\Pharo.exe $APP_NAME.image" > $APP_NAME/$APP_NAME.bat
+
+cp -rp build_image/Contents/Resources/* $APP_NAME/
+
 rm -f $APP_NAME-{TargetPlatform}.zip
 zip -r $APP_NAME-{TargetPlatform}.zip $APP_NAME
 ' withUnixLineEndings

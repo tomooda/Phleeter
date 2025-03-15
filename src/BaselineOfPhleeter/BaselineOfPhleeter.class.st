@@ -12,10 +12,13 @@ BaselineOfPhleeter >> baseline: spec [
 	spec for: #common do: [
 		spec blessing: #baseline.
 		spec
+			baseline: 'ObjCBridge'
+			with: [ spec repository: 'github://tesonep/objcbridge/src' ];
 			baseline: 'ApplicationGenerator'
 			with: [
 				spec repository: 'github://tesonep/PharoApplicationGenerator/src' ];
 			package: 'Phleeter-Core'
-			with: [ spec requires: #( 'ApplicationGenerator' ) ];
+			with: [ spec requires: #( 'ApplicationGenerator'
+					   'ObjCBridge' ) ];
 			group: 'default' with: #( 'Phleeter-Core' ) ]
 ]

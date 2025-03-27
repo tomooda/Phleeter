@@ -229,7 +229,7 @@ fi
 rm -rf $APP_NAME
 mkdir $APP_NAME
 cp -rp pharo-vm-{TargetPlatform} $APP_NAME/Pharo
-echo ".\\Pharo\\Pharo.exe $APP_NAME.image" > $APP_NAME/$APP_NAME.bat
+echo ".\\Pharo\\Pharo.exe $APP_NAME.image {CommandLineHandler}" > $APP_NAME/$APP_NAME.bat
 
 cp -rp build_image/Contents/Resources/* $APP_NAME/
 

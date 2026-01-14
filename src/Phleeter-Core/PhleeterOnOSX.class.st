@@ -192,6 +192,7 @@ mkdir -p dmg/$APP_BUNDLE
 cp -r build_image/* ./dmg/$APP_BUNDLE/
 mkdir -p ./dmg/$APP_BUNDLE/Contents/MacOS
 cp -Rf pharo-vm-{TargetPlatform}/Pharo.app/Contents/MacOS/* ./dmg/$APP_BUNDLE/Contents/MacOS/
+mv ./dmg/$APP_BUNDLE/Contents/MacOS/Pharo ./dmg/$APP_BUNDLE/Contents/MacOS/$APP_NAME
 codesign --force --deep -s {CodesignName} dmg/$APP_BUNDLE
 create-dmg \\
     --volname "$APP_NAME Installer" \\
@@ -229,7 +230,15 @@ fi
 rm -rf $APP_NAME
 mkdir $APP_NAME
 cp -rp pharo-vm-{TargetPlatform} $APP_NAME/Pharo
-echo ".\\Pharo\\Pharo.exe $APP_NAME.image {CommandLineHandler}" > $APP_NAME/$APP_NAME.bat
+
+if [  ! -d "./PharoVMStart" ]
+then
+    curl --output PharoVMStart.zip https://viennatalk.org/builds/PharoVMStart/PharoVMStart.zip
+    unzip PharoVMStart.zip
+    rm PharoVMStart.zip
+fi
+cp -p PharoVMStart/* $APP_NAME
+mv $APP_NAME/PharoVMStart.exe $APP_NAME/$APP_NAME.exe
 
 cp -rp build_image/Contents/Resources/* $APP_NAME/
 
